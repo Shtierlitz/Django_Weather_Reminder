@@ -1,0 +1,68 @@
+FROM python:3.10 as builder
+
+WORKDIR /usr/src/app
+
+ENV PYTHONDONTWRITEBITECODE 1
+ENV PYTHONUNBUFFERED 1
+
+RUN apt-get update
+RUN apt-get upgrade -y \
+    && apt-get install -y postgresql gcc python3-dev musl-dev
+
+RUN pip install --upgrade pip
+
+copy . .
+
+COPY ./requirements.txt /usr/src/app/requirements.txt
+
+RUN pip wheel --no-cache-dir --no-deps --wheel-dir /usr/src/app/wheels -r requirements.txt
+
+
+FROM python:3.10
+
+RUN mkdir -p /home/app
+
+ARG USER_PASS=PASSWORD
+ENV USER_PASS=$USER_PASS
+
+RUN groupadd weather
+RUN useradd -m -g weather Igrerio -p $USER_PASS
+RUN usermod -aG weather Igrerio
+
+ENV HOME=/home/app
+ENV APP_HOME=/home/app/web
+RUN mkdir $APP_HOME
+WORKDIR $APP_HOME
+
+RUN apt-get update -y \
+     && apt-get install -y netcat
+
+COPY --from=builder /usr/src/app/wheels /wheels
+COPY --from=builder /usr/src/app/requirements.txt .
+RUN pip install --no-cache /wheels/*
+
+COPY ./ $APP_HOME/
+#COPY ./entrypoint.sh $APP_HOME
+
+RUN chown -R Igrerio:weather $APP_HOME
+
+USER Igrerio
+
+#ENTRYPOINT ["/home/app/web/entrypoint.sh"]
+
+#ENV PYTHONDONTWRITEBITECODE 1
+#ENV PYTHONUNBUFFERED 1
+
+#WORKDIR /usr/src/app
+
+#COPY ./requirements.txt /usr/src/app/requirements.txt
+#RUN pip install -r requirements.txt
+
+#COPY . /usr/src/app
+
+#COPY ./entrypoint.sh /usr/src/app/entrypoint.sh
+
+
+#EXPOSE 8000
+#CMD ["python", "manage.py", "migrate"]
+#CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]

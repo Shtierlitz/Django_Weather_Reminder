@@ -1,0 +1,51 @@
+{% extends 'weatherreminder/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container">
+    <br><br>
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+            <div class="card shadow border">
+                <div class="card-body d-flex flex-column">
+                    <div class="text-center">
+                        <h1>About <span class="logo"></span> project</h1>
+                    </div>
+                    <br>
+                    <p class="text-center">The project is built as a training project based on Fox Minded courses.</p>
+                    <p class="text-center">The project does not bring commercial benefits and is not intended for commercial exploitation. Any borrowings are taken from free access from the Internet.</p>
+                    <br>
+                    <h2 class="text-center" style="color: #0d6efd">Description:</h2>
+                    <br>
+                    <h3 class="text-center">Website part</h3>
+                    <p>The project is designed as a website + API for getting weather from two services to choose from: OpenWeatherMap or WeatherBit.</p>
+                    <p>An unregistered user can enter the name of the city and the OpenWeatherMap service token to see the current weather.</p>
+                    <p>A registered user will be able to subscribe to receive weather from two services to choose from and receive notifications to his email with the frequency chosen by him.</p>
+                    <br>
+                    <h3 class="text-center">API part</h3>
+                    <p>To get excess to API if you want to use <strong>Postman</strong> you need to generate and verify token. It is possible after
+                    you register in website</p>
+                    <ul style="list-style: none;">
+
+                    <li>../api/v1/token/ - obtain token</li>
+                    <li>../api/v1/token/verify/ - verify your token</li>
+                    <li>../api/v1/token/refresh/ - refresh token if it has expired</li>
+                        </ul>
+                    <br>
+                    <h6 class="text-center">You can follow the following paths to use the API:</h6>
+                    <ul style="list-style: none;">
+                    <li style="margin-left: 0;">../api/v1/subscriptions/ - get users subscriptions list</li>
+                    <li>../api/v1/subscriptions/pk/ - get or delete users subscription</li>
+                    <li>../api/v1/cities/  - get users city list</li>
+                    <li>../api/v1/cities/pk/ - get or delete city</li>
+                    <li style="">../api/v1/get_weather/ - get list of all existing weathers in database</li>
+                    </ul>
+
+                    <br>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

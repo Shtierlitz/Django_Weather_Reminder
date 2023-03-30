@@ -1,0 +1,77 @@
+{% extends 'weatherreminder/base.html' %}
+
+{% block content %}
+    <br>
+    {% if error %}
+        <div class="text-center">
+            <p style="color: #5ee55c"><strong>Sorry! :( Something went wrong!</strong></p>
+            <p style="color: #5ee55c"><strong>Please input correct city name and correct OpenWeatherMap token</strong></p>
+        </div>
+    {% endif %}
+    {% if not request.user.is_authenticated %}
+        <form method="post" class="col-md d-flex flex-column mx-auto">
+    {% csrf_token %}
+    <div class="form-group mx-auto max-width-500">
+        <label for="city">Choose Your City:</label>
+        <input type="text" class="form-control" name="city" id="city" placeholder="Enter city name" required>
+    </div>
+    <div class="form-group mx-auto max-width-500">
+        <label for="token">Insert your WeatherMap token:</label>
+        <input type="text" class="form-control" name="token" id="token" placeholder="Enter API key" required>
+    </div>
+    <div class="mx-auto">
+        <button type="submit" class="btn btn-primary mx-auto">Search</button>
+    </div>
+</form>
+
+        <br> <br>
+        <div class="row">
+            {% if country_code and coordinate and temp and pressure and humidity %}
+                <div class="col d-flex justify-content-center">
+                <div class=" card text-white bg-dark mb-6">
+                <div class=" card-body">
+                    <h4><span class="badge badge-primary">City :</span>{{ city }}</h4>
+                    <h4><span class="badge badge-primary">Country Code :</span>{{ country_code }}</h4>
+                    <h4><span class="badge badge-primary">Coordinates [X,Y] :</span>{{ coordinate }}</h4>
+                    <h4><span class="badge badge-primary">Temperature :</span> {{ temp }}</h4>
+                    <h4><span class="badge badge-primary">Pressure :</span>{{ pressure }}</h4>
+                    <h4><span class="badge badge-primary">Humidity : </span>{{ humidity }}</h4>
+                </div>
+            {% endif %}
+            </div>
+            </div>
+        </div>
+    {% else %}
+        <h1 style="text-align: center; color: #0dcaf0">Select the service you would like to subscribe to</h1>
+        <br>
+        <div class="container">
+            <div class="card-group">
+                <div class="card">
+                    <div class="card-body">
+                        <strong><a class="card-title" href="{% url 'open-weather' %}"><span
+                                style="color: #eb6e4b; font-size: 40px">Open Weather Map</span></a></strong>
+                        <h3>Weather forecasts, nowcasts and history in a fast and elegant way</h3>
+                    </div>
+                    <div class="card-footer">
+                        <small class="text-muted">Link to get an OpenWeatherMap token: <a
+                                href="https://openweathermap.org/">https://openweathermap.org/</a>
+                        </small>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <strong><a class="card-title" href="{% url 'weather-bit' %}"><span
+                                style="color: #1693E5; font-size: 40px">Weatherbit</span></a></strong>
+                        <h3>The High Performance Weather API for all of your data needs.</h3>
+
+                    </div>
+                    <div class="card-footer">
+                        <small class="text-muted">Link to get an WeatherBit token: <a
+                                href="https://www.weatherbit.io/">https://www.weatherbit.io/</a>
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}

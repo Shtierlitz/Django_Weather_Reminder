@@ -1,0 +1,10 @@
+
+<h1><strong>Hello there!</strong></h1>
+
+<h2><strong>You have received a weather notification!</strong></h2>
+
+<h2><strong>City: {{ name }}</strong></h2>
+<h2><strong>From: {{ email }}</strong></h2>
+{% autoescape on %}
+<h3>Message: {{ content | safe }}</h3>
+{% endautoescape %}

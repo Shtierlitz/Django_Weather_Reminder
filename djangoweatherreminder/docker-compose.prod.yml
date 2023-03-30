@@ -1,0 +1,91 @@
+version: "3.8"
+
+services:
+  pg_db:
+    container_name: pg_db
+    image:
+      postgres:14.7-alpine
+    volumes:
+      - pg_data:/var/lib/postgresql/data/
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: ${DATABASE_PASS}
+      POSTGRES_USER: ${DATABASE_USER}
+      POSTGRES_DB: ${DATABASE_NAME}
+    env_file:
+      - ./.env
+
+  web:
+    build:
+      context: ./
+      dockerfile: Dockerfile.prod
+    container_name: weatherapp
+    restart: on-failure
+    command: bash -c "python /home/app/web/manage.py migrate &&
+      gunicorn djangoweatherreminder.wsgi:application --bind 0.0.0.0:8000"
+    expose:
+      - 8000
+    depends_on:
+      - pg_db
+      - redis
+    env_file:
+      - ./.env
+    environment:
+      - DB_HOST=pg_db
+      - CELERY_BROKER=redis://redis:6379/0
+      - CELERY_BACKEND=redis://redis:6379/0
+
+  nginx:
+    build: ./nginx
+    ports:
+      - 1337:80
+    depends_on:
+    - web
+
+  celery-worker:
+    restart: on-failure
+    build:
+      context: ./
+    command: sh -c 'sleep 5 && celery -A djangoweatherreminder worker -l info -P eventlet'
+    volumes:
+      - .:/usr/src/app
+    depends_on:
+      - web
+      - redis
+
+  celery-beat:
+    restart: on-failure
+    build:
+      context: ./
+    command: sh -c 'sleep 10 && celery -A djangoweatherreminder beat -l INFO'
+    volumes:
+      - .:/usr/src/app
+    depends_on:
+      - web
+      - redis
+  celery-flower:
+    restart: on-failure
+    image:
+      flower:1.2.0
+    build:
+      context: ./
+    command: sh -c 'sleep 15 && celery flower -l INFO --persisten=True'
+    ports:
+      - 5555:5555
+    environment:
+      - CELERY_BROKER_URL=redis://redis:6379/0
+    depends_on:
+      - web
+      - redis
+      - celery-worker
+      - celery-beat
+
+  redis:
+    image: redis
+    container_name: redis
+    restart: always
+    ports:
+      - "6379:6379"
+
+volumes:
+  pg_data:

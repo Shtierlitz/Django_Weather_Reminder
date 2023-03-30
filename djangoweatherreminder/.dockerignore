@@ -1,0 +1,10 @@
+venv
+*/local_settings.py
+*.sqlite3
+node_modules
+*.log
+*.tmp
+npm-debug.log
+.git
+.idea
+.vscode

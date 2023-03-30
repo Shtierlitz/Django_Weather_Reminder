@@ -1,0 +1,82 @@
+{% extends 'weatherreminder/base.html' %}
+{% load static %}
+
+{% block content %}
+    <div class="container">
+        <br><br>
+        <div class="row align-items-center">
+            <div class="col-6 mx-auto">
+                <div class="card shadow border">
+                    <div class="card-body d-flex flex-column align-items-lg-center">
+                        <img src="{% static 'weatherreminder/images/weather_bit.png' %}" class="card-img-top"
+                             alt="WeatherBit logo" style="width: initial; height: initial; border-radius: 20px">
+                        <br>
+                        <p class="card-text">You can subscribe to Weather Bit and receive weather reports with
+                            selected frequency.</p>
+                        <p class="card-text">Enter city name and period of notifications.</p>
+                        <p class="card-text">Weather reminders will be sent to your email according to the selected
+                            period.</p>
+                        <br>
+                        {% if error %}
+                            <p style="color: red">Sorry! :( Such city seems to not exist!</p>
+                            <p style="color: red">Please input correct city name.</p>{% endif %}
+                        {% if to_many %}
+                            <p style="color: red">Sorry! :( The service has increased the number of allowed requests per month.</p>
+                        <p style="color: red">Please try another service.</p>{% endif %}
+                        {% if exists %}
+                            <p style="color: blue">You are already subscribed on this city. Please chose another one
+                                :)</p>
+                        {% endif %}
+                        <form class="d-flex" method="post">
+                            {% csrf_token %}
+                            <div class="input-group input-group-sm mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="inputGroup-sizing-sm">Enter city name</span>
+                                </div>
+                                <input name="city" type="search" class="form-control" aria-label="City"
+                                       aria-describedby="inputGroup-sizing-sm" required>
+
+
+                                <div class="btn-group">
+
+                                    <select class="form-select form-select-sm ms-auto"
+                                                            style="max-width: 150px;" name="period">
+                                                        <option selected>Select period</option>
+                                                        <option value="1">One hour</option>
+                                                        <option value="3">Three hours</option>
+                                                        <option value="6">Six hours</option>
+                                                        <option value="12">Twelve hours</option>
+                                                    </select>
+
+                                </div>
+                                <button type="submit" class="btn btn-success"
+                                        style="margin-left: 10px; border-radius: var(--bs-btn-border-radius);">Subscribe
+                                </button>
+                            </div>
+
+                        </form>
+                        <br>
+                        <div class="row">
+                            {% if country_code and coordinate and temp and pressure and humidity %}
+                                <div class="col d-flex justify-content-center">
+                                <div class=" card text-white bg-dark mb-6">
+                                <div class=" card-body">
+                                    <h4><span class="badge badge-primary">City :</span>{{ city }}</h4>
+                                    <h4><span class="badge badge-primary">Country Code :</span>{{ country_code }}</h4>
+                                    <h4><span class="badge badge-primary">Coordinates [X,Y] :</span>{{ coordinate }}
+                                    </h4>
+                                    <h4><span class="badge badge-primary">Temperature :</span> {{ temp }}</h4>
+                                    <h4><span class="badge badge-primary">Pressure :</span>{{ pressure }}</h4>
+                                    <h4><span class="badge badge-primary">Humidity : </span>{{ humidity }}</h4>
+                                </div>
+                            {% endif %}
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                    {#                    {% endif %}#}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

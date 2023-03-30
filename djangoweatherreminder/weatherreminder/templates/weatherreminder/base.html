@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="icon" href="{% static 'weatherreminder/images/favicon.ico' %}" type="image/x-icon"/>
+    <link type="text/css" href="{% static 'weatherreminder/css/bootstrap.css' %}" rel="stylesheet"/>
+    <link type="text/css" href="{% static 'weatherreminder/css/styles.css' %}" rel="stylesheet"/>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
+    <style>
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .max-width-500 {
+            width: 500px;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+            integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
+            crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <title>{{ title }}</title>
+</head>
+
+<body style="background-image: url('../../static/weatherreminder/images/thunderstorm.jpg'); background-size: 100%">
+{% block mainmenu %}
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <a class="navbar-brand-personal" href="{% url 'home' %}"></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item active">
+                    <a class="nav-link" href="{% url 'about' %}">About<span class="sr-only">(current)</span></a>
+                </li>
+                {% if request.user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'profile' %}">Profile</a>
+                    </li>
+                {% endif %}
+                <li class="nav-item">
+                    <a class="nav-link" href="https://shtierlitz.github.io/CV/">Developer CV</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link disabled" href="https://shtierlitz.github.io/CV/">disabled</a>
+                </li>
+            </ul>
+            <ul class="nav justify-content-end">
+                {% if request.user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link" style="color: white" href="/">{{ user.username }}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" style="color: white" href="{% url 'logout' %}">Выйти</a>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" style="color: white" href="{% url 'register' %}">Регистрация</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" style="color: white" href="{% url 'login' %}">Войти</a>
+                    </li>
+
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+{% endblock mainmenu %}
+</body>
+{% block content %}
+{% endblock %}
+</html>
