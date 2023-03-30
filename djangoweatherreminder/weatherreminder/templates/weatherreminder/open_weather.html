@@ -5,7 +5,7 @@
     <div class="container">
         <br><br>
         <div class="row align-items-center">
-            <div class="col-6 mx-auto">
+            <div class="col-md-8 mx-auto">
                 <div class="card shadow border">
                     <div class="card-body d-flex flex-column align-items-lg-center">
                         <img src="{% static 'weatherreminder/images/weather.png' %}" class="card-img-top"
@@ -21,8 +21,9 @@
                             <p style="color: red">Sorry! :( Such city seems to not exist!</p>
                             <p style="color: red">Please input correct city name.</p>{% endif %}
                         {% if to_many %}
-                            <p style="color: red">Sorry! :( The service has increased the number of allowed requests per month.</p>
-                        <p style="color: red">Please try another service.</p>{% endif %}
+                            <p style="color: red">Sorry! :( The service has increased the number of allowed requests per
+                                month.</p>
+                            <p style="color: red">Please try another service.</p>{% endif %}
                         {% if exists %}
                             <p style="color: blue">You are already subscribed on this city. Please chose another one
                                 :)</p>
@@ -30,27 +31,29 @@
                         <form class="d-flex" method="post">
                             {% csrf_token %}
                             <div class="input-group input-group-sm mb-3">
-                                <div class="input-group-prepend">
+                                <div class="input-group-prepend" style="margin-bottom: 10px">
                                     <span class="input-group-text" id="inputGroup-sizing-sm">Enter city name</span>
                                 </div>
                                 <input name="city" type="search" class="form-control" aria-label="City"
-                                       aria-describedby="inputGroup-sizing-sm" required>
+                                       aria-describedby="inputGroup-sizing-sm" required
+                                       style="margin-bottom: 10px; min-width: 100px;">
 
 
-                                <div class="btn-group">
+                                <div class="btn-group" style="margin-bottom: 10px">
 
                                     <select class="form-select form-select-sm ms-auto"
-                                                            style="max-width: 150px;" name="period">
-                                                        <option selected>Select period</option>
-                                                        <option value="1">One hour</option>
-                                                        <option value="3">Three hours</option>
-                                                        <option value="6">Six hours</option>
-                                                        <option value="12">Twelve hours</option>
-                                                    </select>
+                                            style="max-width: 150px;" name="period">
+                                        <option selected>Select period</option>
+                                        <option value="1">One hour</option>
+                                        <option value="3">Three hours</option>
+                                        <option value="6">Six hours</option>
+                                        <option value="12">Twelve hours</option>
+                                    </select>
 
                                 </div>
-                                <button type="submit" class="btn btn-success"
-                                        style="margin-left: 10px; border-radius: var(--bs-btn-border-radius);">Subscribe
+                                <button type="submit" class="btn btn-success btn-subscribe"
+                                        style="margin-bottom: 10px; border-radius: var(--bs-btn-border-radius);">
+                                    Subscribe
                                 </button>
                             </div>
 

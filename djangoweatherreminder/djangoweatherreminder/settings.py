@@ -40,7 +40,7 @@ RECIPIENTS_EMAIL = env('RECIPIENTS_EMAIL')
 ALLOWED_HOSTS = []
 
 try:
-    from djangoweatherreminder.local_settings import *
+    from local_settings import *
 except ImportError:
     from .prod_settings import *
 

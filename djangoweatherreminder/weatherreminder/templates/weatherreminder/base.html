@@ -28,50 +28,46 @@
     <title>{{ title }}</title>
 </head>
 
-<body style="background-image: url('../../static/weatherreminder/images/thunderstorm.jpg'); background-size: 100%">
+<body style="background-image: url('../../static/weatherreminder/images/thunderstorm.jpg'); background-size: cover; background-attachment: fixed;">
 {% block mainmenu %}
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-        <a class="navbar-brand-personal" href="{% url 'home' %}"></a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item active">
-                    <a class="nav-link" href="{% url 'about' %}">About<span class="sr-only">(current)</span></a>
-                </li>
-                {% if request.user.is_authenticated %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'profile' %}">Profile</a>
-                    </li>
-                {% endif %}
-                <li class="nav-item">
-                    <a class="nav-link" href="https://shtierlitz.github.io/CV/">Developer CV</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link disabled" href="https://shtierlitz.github.io/CV/">disabled</a>
-                </li>
-            </ul>
-            <ul class="nav justify-content-end">
-                {% if request.user.is_authenticated %}
-                    <li class="nav-item">
-                        <a class="nav-link" style="color: white" href="/">{{ user.username }}</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" style="color: white" href="{% url 'logout' %}">Выйти</a>
-                    </li>
-                {% else %}
-                    <li class="nav-item">
-                        <a class="nav-link" style="color: white" href="{% url 'register' %}">Регистрация</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" style="color: white" href="{% url 'login' %}">Войти</a>
-                    </li>
+    <a class="navbar-brand-personal" href="{% url 'home' %}"></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
 
-                {% endif %}
-            </ul>
-        </div>
+        <div class="collapse navbar-collapse" id="navbarText">
+    <ul class="navbar-nav me-auto">
+        <li class="nav-item active">
+            <a class="nav-link" href="{% url 'about' %}">About<span class="sr-only">(current)</span></a>
+        </li>
+        {% if request.user.is_authenticated %}
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'profile' %}">Profile</a>
+        </li>
+        {% endif %}
+        <li class="nav-item">
+            <a class="nav-link" href="https://shtierlitz.github.io/CV/">Developer CV</a>
+        </li>
+    </ul>
+    <ul class="navbar-nav ml-auto">
+        {% if request.user.is_authenticated %}
+        <li class="nav-item">
+            <a class="nav-link" style="color: white" href="{% url 'profile' %}">{{ user.username }}</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" style="color: white" href="{% url 'logout' %}">Выйти</a>
+        </li>
+        {% else %}
+        <li class="nav-item">
+            <a class="nav-link" style="color: white" href="{% url 'register' %}">Регистрация</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" style="color: white" href="{% url 'login' %}">Войти</a>
+        </li>
+        {% endif %}
+    </ul>
+</div>
     </nav>
 {% endblock mainmenu %}
 </body>
