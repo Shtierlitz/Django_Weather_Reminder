@@ -41,5 +41,5 @@ CELERY_IMPORTS = [
     'weatherreminder.tasks',
 ]
 
-CSRF_TRUSTED_ORIGINS = ['http://127.0.0.1', 'http://localhost:1337']
+CSRF_TRUSTED_ORIGINS = ['http://127.0.0.1', 'http://localhost:1337', 'http://3.77.158.95']
 
